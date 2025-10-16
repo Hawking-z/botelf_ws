@@ -1,0 +1,111 @@
+
+
+model: "src/bxi_controller/models/mimic_model/policy_11.onnx"
+pino_model: "src/bxi_controller/conifg/model/elf25/urdf/elf25.urdf"
+
+# HZ
+pd_rate: 1000
+infer_rate: 100
+
+obs_dim: 56
+stack_size: 15
+action_dim: 12
+
+cycle_time: 0.6
+joint_num: 25
+action_scales: 1.
+clip_observations: 100.
+clip_actions: 10.0
+eps: 0.2
+
+# joint_kp:
+#   - [30, 30.0, 45., 55., 4., 3.]
+#   - [30, 30.0, 45., 55., 4., 3.]
+#   - [150,350,350]
+#   - [20,20,10,20,10]
+#   - [20,20,10,20,10]
+
+# joint_kd:
+#   - [3, 3, 3., 3.5, 0.5, 0.5]
+#   - [3., 3, 3., 3.5, 0.5, 0.5]
+#   - [3,5,5]
+#   - [1,1,1,1,0.8]
+#   - [1,1,1,1,0.8]
+
+
+joint_kp:
+  - [30, 30.0, 40., 50., 3., 3.]
+  - [30, 30.0, 40., 50., 3., 3.]
+  - [150,350,350]
+  - [20,20,10,20,10]
+  - [20,20,10,20,10]
+
+joint_kd:
+  - [3., 3, 3.5, 4., 0.3, 0.3]
+  - [3., 3, 3.5, 4., 0.3, 0.3]
+  - [3,5,5]
+  - [1,1,1,1,0.8]
+  - [1,1,1,1,0.8]
+
+# default_dof_pos:
+#   - [0, 0, -0.4, 0.8, -0.4, 0]
+#   - [0, 0, -0.4, 0.8, -0.4, 0]
+#   - [0.0, 0.0, 0.0]
+#   - [0.7, 0.2, -0.1, -1.5 , 0.0]
+#   - [0.7, -0.2, 0.1, -1.5 , 0.0]
+
+# init_dof_pos:
+#   - [0, 0, -0.55, 1.1, -0.55, 0]
+#   - [0, 0, -0.55, 1.1, -0.55, 0]
+#   - [0.0, 0.0, 0.0]
+#   - [0.7, 0.2, -0.1, -1.5 , 0.0]
+#   - [0.7, -0.2, 0.1, -1.5 , 0.0]
+
+default_dof_pos:
+  - [0, 0, -0.55, 1.1, -0.55, 0]
+  - [0, 0, -0.55, 1.1, -0.55, 0]
+  - [0.0, 0.0, 0.0]
+  - [0.7, 0.2, -0.1, -1.5 , 0.0]
+  - [0.7, -0.2, 0.1, -1.5 , 0.0]
+
+init_dof_pos:
+  - [0, 0, -0.55, 1.1, -0.55, 0]
+  - [0, 0, -0.55, 1.1, -0.55, 0]
+  - [0.0, 0.0, 0.0]
+  - [0.7, 0.2, -0.1, -1.5 , 0.0]
+  - [0.7, -0.2, 0.1, -1.5 , 0.0]
+
+
+torque_limits:
+  - [20, 40, 100, 120, 14, 7]
+  - [20, 40, 100, 120, 14, 7]
+  - [20, 20, 20]
+  - [7, 7, 7, 7,7]
+  - [7, 7, 7, 7,7]
+
+joint_names:
+  - l_hip_z_joint
+  - l_hip_x_joint
+  - l_hip_y_joint
+  - l_knee_y_joint
+  - l_ankle_y_joint
+  - l_ankle_x_joint
+  - r_hip_z_joint
+  - r_hip_x_joint
+  - r_hip_y_joint
+  - r_knee_y_joint
+  - r_ankle_y_joint
+  - r_ankle_x_joint
+  - waist_z_joint
+  - waist_x_joint
+  - waist_y_joint
+  - l_shld_y_joint
+  - l_shld_x_joint
+  - l_shld_z_joint
+  - l_elb_y_joint
+  - l_elb_z_joint
+  - r_shld_y_joint
+  - r_shld_x_joint
+  - r_shld_z_joint
+  - r_elb_y_joint
+  - r_elb_z_joint

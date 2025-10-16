@@ -1,0 +1,81 @@
+
+
+model: "src/bxi_controller/models/rl_model/policy_0.onnx"
+# model: "src/bxi_controller/models/dh_rl_model/walk_policy_0.onnx"
+
+# HZ
+infer_rate: 100
+pd_rate: 1000
+obs_dim: 48
+stack_size: 10
+# stack_size: 45
+action_dim: 12
+
+cycle_time: 0.6
+joint_num: 20
+action_scales: 0.5
+clip_observations: 100.
+clip_actions: 10.0
+eps: 0.2
+
+obs_scales:
+  lin_vel: 1.0
+  ang_vel: 1.0
+  dof_pos: 1.0
+  dof_vel: 0.05
+  quat: 1.0
+
+joint_kp:
+  - [100, 100., 100., 100., 20., 20.]
+  - [100, 100., 100., 100., 20., 20.]
+  - [10,10,10,10]
+  - [10,10,10,10]
+
+joint_kd:
+  - [3., 3., 3., 3., 0.9, 0.9]
+  - [3., 3., 3., 3., 0.9, 0.9]
+  - [0.5,0.5,0.5,0.5]
+  - [0.5,0.5,0.5,0.5]
+
+
+default_dof_pos:
+  - [0, 0, -0.35, 0.7, -0.35, 0]
+  - [0, 0, -0.35, 0.7, -0.35, 0]
+  - [0.7, 0.2, -0.1, -1.5 ]
+  - [0.7, -0.2, 0.11, -1.5 ]
+
+init_dof_pos:
+  - [0, 0, -0.35, 0.7, -0.35, 0]
+  - [0, 0, -0.35, 0.7, -0.35, 0]
+  - [0.7, 0.2, -0.1, -1.5 ]
+  - [0.7, -0.2, 0.1, -1.5 ]
+
+torque_limits:
+  - [19, 40, 100, 120, 12, 6]
+  - [19, 40, 100, 120, 12, 6]
+  - [7, 7, 7, 7]
+  - [7, 7, 7, 7]
+
+joint_names:
+
+  - l_hip_z_joint
+  - l_hip_x_joint
+  - l_hip_y_joint
+  - l_knee_y_joint
+  - l_ankle_y_joint
+  - l_ankle_x_joint
+  - r_hip_z_joint
+  - r_hip_x_joint
+  - r_hip_y_joint
+  - r_knee_y_joint
+  - r_ankle_y_joint
+  - r_ankle_x_joint
+  
+  - l_shld_y_joint
+  - l_shld_x_joint
+  - l_shld_z_joint
+  - l_elb_y_joint
+  - r_shld_y_joint
+  - r_shld_x_joint
+  - r_shld_z_joint
+  - r_elb_y_joint
