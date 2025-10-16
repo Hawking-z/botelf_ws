@@ -40,7 +40,7 @@ public:
 
 private:
     void inner_loop();
-    void load_conifg(std::string config_path);
+    void load_config(std::string config_path);
     void reset_robot(int reset_step, bool release);
     void init_robot_pos();
     void update_obs();

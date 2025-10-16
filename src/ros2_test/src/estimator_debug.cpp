@@ -378,7 +378,7 @@ Estimator::Estimator()
     // set B to zero
     B.setZero();
 
-    const std::string urdf_robot_filename = std::string("src/bxi_controller/conifg/model/bot_elf/urdf/bot_elf_new.urdf");
+    const std::string urdf_robot_filename = std::string("src/bxi_controller/config/model/bot_elf/urdf/bot_elf_new.urdf");
 
     pinocchio::JointModelFreeFlyer root_joint;
     pinocchio::urdf::buildModel(urdf_robot_filename, root_joint, model_biped);
@@ -607,7 +607,7 @@ private:
 
     void update_step_command();
 
-    void load_conifg(std::string config_path);
+    void load_config(std::string config_path);
 
     void infer_loop();
     void pd_controller_loop();
@@ -768,8 +768,8 @@ RobotController::RobotController() : Node("RobotController")
     myodom_pub_ = this->create_publisher<nav_msgs::msg::Odometry>(
         topic_prefix_ + "myodom", qos);
 
-    load_conifg("src/bxi_controller/conifg/controller.yaml");
-    robot_state_.reset("src/bxi_controller/conifg/init_state.yaml", joint_num_);
+    load_config("src/bxi_controller/config/controller.yaml");
+    robot_state_.reset("src/bxi_controller/config/init_state.yaml", joint_num_);
 
    
     obs_cur_.resize(obs_dim_);
@@ -792,7 +792,7 @@ RobotController::RobotController() : Node("RobotController")
     RCLCPP_INFO(this->get_logger(), "RobotController initialized");
 }
 
-void RobotController::load_conifg(std::string filename)
+void RobotController::load_config(std::string filename)
 {
     YAML::Node config = YAML::LoadFile(filename);
     pd_rate_ = config["pd_rate"].as<double>();

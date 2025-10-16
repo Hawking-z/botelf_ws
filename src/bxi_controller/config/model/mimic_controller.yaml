@@ -1,7 +1,7 @@
 
 
 model: "src/bxi_controller/models/mimic_model/policy_11.onnx"
-pino_model: "src/bxi_controller/conifg/model/elf25/urdf/elf25.urdf"
+pino_model: "src/bxi_controller/config/model/elf25/urdf/elf25.urdf"
 
 # HZ
 pd_rate: 1000

@@ -50,7 +50,7 @@ RobotController::RobotController() : Node("RobotController")
         this->create_client<communication::srv::RobotReset>(
             topic_prefix_ + "robot_reset");
 
-    load_conifg("src/bxi_controller/conifg/rl_controller.yaml");
+    load_config("src/bxi_controller/config/rl_controller.yaml");
 
     obs_cur_.resize(obs_dim_);
     obs_cur_.setZero();
@@ -83,7 +83,7 @@ RobotController::RobotController() : Node("RobotController")
     RCLCPP_INFO(this->get_logger(), "RobotController initialized");
 }
 
-void RobotController::load_conifg(std::string filename)
+void RobotController::load_config(std::string filename)
 {
     std::cout << "load config file: " << filename << std::endl;
     YAML::Node config = YAML::LoadFile(filename);

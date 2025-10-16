@@ -46,7 +46,7 @@ private:
     void update_obs();
     void infer_action();
 
-    void load_conifg(std::string config_path);
+    void load_config(std::string config_path);
 
     void infer_loop();
     void pd_controller_loop();

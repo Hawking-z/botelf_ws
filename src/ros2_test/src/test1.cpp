@@ -10,7 +10,7 @@ int main()
     float action_scales_;
     float clip_observations_; 
     float clip_actions_;
-    YAML::Node config = YAML::LoadFile("/home/zyc/bxi_ws/src/bxi_controller/conifg/controller.yaml");
+    YAML::Node config = YAML::LoadFile("/home/zyc/bxi_ws/src/bxi_controller/config/controller.yaml");
 
     Eigen::VectorXf joint_kp_;
     Eigen::VectorXf joint_kd_;
@@ -116,7 +116,7 @@ int main()
     //     std::cout<<name<<std::endl;
     // }
 
-    YAML::Node state_config = YAML::LoadFile("/home/zyc/bxi_ws/src/bxi_controller/conifg/init_state.yaml");
+    YAML::Node state_config = YAML::LoadFile("/home/zyc/bxi_ws/src/bxi_controller/config/init_state.yaml");
     float total_mass = state_config["total_mass"].as<float>();
     idx = 0;
     Eigen::Vector3f init_root_pos;

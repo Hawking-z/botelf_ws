@@ -16,7 +16,7 @@ public:
         motion_commands_.header.frame_id = std::string("bot_elf");
         timer_ = this->create_wall_timer(std::chrono::milliseconds(10), std::bind(&KeyboardNode::publish_motion_command, this));
         set_terminal_mode();
-        load_conifg("src/bxi_controller/conifg/keyboard_config.yaml");
+        load_config("src/bxi_controller/config/keyboard_config.yaml");
         input_thread_ = std::thread(&KeyboardNode::read_keyboard_input, this);
         RCLCPP_INFO(this->get_logger(), "Keyboard node started.");
     }
@@ -49,7 +49,7 @@ private:
         tcsetattr(0, TCSANOW, &old_termios);
     }
 
-    void load_conifg(std::string filename)
+    void load_config(std::string filename)
     {
         std::cout << "load config file: " << filename << std::endl;
         YAML::Node config = YAML::LoadFile(filename);

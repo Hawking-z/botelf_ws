@@ -766,7 +766,7 @@ void RobotController::infer_action()
 
 }
 
-void RobotController::load_conifg(std::string filename)
+void RobotController::load_config(std::string filename)
 {
     std::cout << "load config file: " << filename << std::endl;
     YAML::Node config = YAML::LoadFile(filename);
@@ -966,7 +966,7 @@ void RobotController::inner_loop()
 
     // run 
     loop_count_ = 0;
-    load_conifg("src/bxi_controller/conifg/rl_controller.yaml");
+    load_config("src/bxi_controller/config/rl_controller.yaml");
     obs_cur_.resize(obs_dim_);
     obs_cur_.setZero();
     obs_buffer_.clear();

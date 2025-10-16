@@ -198,7 +198,7 @@ Estimator::Estimator()
     // set B to zero
     B.setZero();
 
-    const std::string urdf_robot_filename = std::string("src/bxi_controller/conifg/model/bot_elf/urdf/bot_elf_new.urdf");
+    const std::string urdf_robot_filename = std::string("src/bxi_controller/config/model/bot_elf/urdf/bot_elf_new.urdf");
 
     pinocchio::JointModelFreeFlyer root_joint;
     pinocchio::urdf::buildModel(urdf_robot_filename, root_joint, model_biped);
@@ -458,7 +458,7 @@ int main()
 {
     Estimator estimator;
     RobotState state;
-    state.reset("/home/zyc/bxi_ws/src/bxi_controller/conifg/init_state.yaml", 20);
+    state.reset("/home/zyc/bxi_ws/src/bxi_controller/config/init_state.yaml", 20);
     estimator.init_state(state);
   
     state.root_quat.x() = -0.0578;
