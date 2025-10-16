@@ -19,11 +19,9 @@ from std_msgs.msg import Header
 from geometry_msgs.msg import Pose
 from sensor_msgs.msg import JointState
 
-robot_name = "elf25"
+robot_name = "bot_elf"
 
 ankle_y_offset = 0.1
-
-dof_num = 25
 
 joint_name = (
     "l_hip_z_joint",   # 左腿_髋关节_z轴
@@ -40,43 +38,33 @@ joint_name = (
     "r_ankle_y_joint",   # 右腿_踝关节_y轴
     "r_ankle_x_joint",   # 右腿_踝关节_x轴
 
-    "waist_z_joint",
-    "waist_x_joint",
-    "waist_y_joint",
-
     "l_shld_y_joint",   # 左臂_肩关节_y轴
     "l_shld_x_joint",   # 左臂_肩关节_x轴
     "l_shld_z_joint",   # 左臂_肩关节_z轴
     "l_elb_y_joint",   # 左臂_肘关节_y轴
-    "l_elb_z_joint",   # 左臂_肘关节_y轴
-    
+
     "r_shld_y_joint",   # 右臂_肩关节_y轴   
     "r_shld_x_joint",   # 右臂_肩关节_x轴
     "r_shld_z_joint",   # 右臂_肩关节_z轴
-    "r_elb_y_joint",    # 右臂_肘关节_y轴
-    "r_elb_z_joint",    # 右臂_肘关节_y轴
-    )   
+    "r_elb_y_joint")   # 右臂_肘关节_y轴
 
 joint_nominal_pos = np.array([   # 指定的固定关节角度
     0,0.0,-0.3,0.6,-0.3,0.0,
     0,0.0,-0.3,0.6,-0.3,0.0,
-    0.0, 0.0, 0.0,
-    0.7,0.2,-0.1,-1.5,0.0,
-    0.7,-0.2,0.1,-1.5,0.0], dtype=np.float32)
+    0.7,0.2,-0.1,-1.5,
+    0.7,-0.2,0.1,-1.5], dtype=np.float32)
 
 joint_kp = np.array([     # 指定关节的kp，和joint_name顺序一一对应
     150,150,150,150,20,20,
     150,150,150,150,20,20,
-    150,350,350,
-    20,20,10,20,10,
-    20,20,10,20,10], dtype=np.float32)
+    20,20,20,20,
+    20,20,20,20], dtype=np.float32)
 
 joint_kd = np.array([  # 指定关节的kd，和joint_name顺序一一对应
     3,3,3,3,1,1,
     3,3,3,3,1,1,
-    3,5,5,
-    1,1,1,1,0.8,
-    1,1,1,1,0.8], dtype=np.float32)
+    1,1,1,1,
+    1,1,1,1], dtype=np.float32)
 
 class env_cfg():
     """
@@ -156,46 +144,22 @@ def quaternion_to_euler_array(quat):
 
 def  _get_sin(phase):
     
-    # phase %= 1.
+    phase %= 1.
     
-    # f = 0
-    # phase_1 = 0.6
+    f = 0
+    phase_1 = 0.6
     
-    # width_1 = phase_1
-    # width_2 = 1 - phase_1
+    width_1 = phase_1
+    width_2 = 1 - phase_1
     
-    # width_sin_1 = (2*math.pi)/2.
+    width_sin_1 = (2*math.pi)/2.
     
-    # if phase < phase_1:
-    #     f = math.sin(width_sin_1 * (phase / width_1))
-    # else: 
-    #     f = -math.sin(width_sin_1 * ((phase - phase_1) / width_2))
+    if phase < phase_1:
+        f = math.sin(width_sin_1 * (phase / width_1))
+    else: 
+        f = -math.sin(width_sin_1 * ((phase - phase_1) / width_2))
     
-    # return f
-    
-    return math.sin(2 * math.pi * phase)
-
-def  _get_cos(phase):
-    
-    # phase %= 1.
-    
-    # f = 0
-    # phase_1 = 0.6
-    
-    # width_1 = phase_1
-    # width_2 = 1 - phase_1
-    
-    # width_sin_1 = (2*math.pi)/2.
-    
-    # if phase < phase_1:
-    #     f = math.sin(width_sin_1 * (phase / width_1))
-    # else: 
-    #     f = -math.sin(width_sin_1 * ((phase - phase_1) / width_2))
-    
-    # return f
-    
-    return math.cos(2 * math.pi * phase)
-
+    return f
 
 class BxiExample(Node):
 
@@ -282,9 +246,8 @@ class BxiExample(Node):
             msg.header.stamp = self.get_clock().now().to_msg()
             msg.actuators_name = joint_name
             msg.pos = joint_nominal_pos.tolist()
-            # msg.pos = np.zeros(dof_num, dtype=np.float32).tolist()
-            msg.vel = np.zeros(dof_num, dtype=np.float32).tolist()
-            msg.torque = np.zeros(dof_num, dtype=np.float32).tolist()
+            msg.vel = np.zeros(20, dtype=np.float32).tolist()
+            msg.torque = np.zeros(20, dtype=np.float32).tolist()
             msg.kp = soft_joint_kp.tolist()
             msg.kd = joint_kd.tolist()
             self.act_pub.publish(msg)
@@ -315,8 +278,7 @@ class BxiExample(Node):
 
             phase = count_lowlevel * self.dt  / env_cfg.rewards.cycle_time
             obs[0, 0] = _get_sin(phase)
-            # obs[0, 1] = _get_sin(phase + 0.5)
-            obs[0, 1] = _get_cos(phase)
+            obs[0, 1] = _get_sin(phase + 0.5)
             
             obs[0, 2] = x_vel_cmd * env_cfg.normalization.obs_scales.lin_vel
             obs[0, 3] = y_vel_cmd * env_cfg.normalization.obs_scales.lin_vel
@@ -353,8 +315,8 @@ class BxiExample(Node):
             msg.pos = qpos.tolist()
             msg.pos[4] += ankle_y_offset
             msg.pos[10] += ankle_y_offset
-            msg.vel = np.zeros(dof_num, dtype=np.float32).tolist()
-            msg.torque = np.zeros(dof_num, dtype=np.float32).tolist()
+            msg.vel = np.zeros(20, dtype=np.float32).tolist()
+            msg.torque = np.zeros(20, dtype=np.float32).tolist()
             msg.kp = joint_kp.tolist()
             msg.kd = joint_kd.tolist()
             self.act_pub.publish(msg)
@@ -387,9 +349,9 @@ class BxiExample(Node):
 
         joint_state = JointState()
         joint_state.name = joint_name
-        joint_state.position = np.zeros(dof_num, dtype=np.float32).tolist()
-        joint_state.velocity = np.zeros(dof_num, dtype=np.float32).tolist()
-        joint_state.effort = np.zeros(dof_num, dtype=np.float32).tolist()
+        joint_state.position = np.zeros(20, dtype=np.float32).tolist()
+        joint_state.velocity = np.zeros(20, dtype=np.float32).tolist()
+        joint_state.effort = np.zeros(20, dtype=np.float32).tolist()
         
         req.base_pose = base_pose
         req.joint_state = joint_state

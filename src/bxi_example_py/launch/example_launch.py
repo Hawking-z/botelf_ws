@@ -7,7 +7,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    xml_file_name = "model/xml/elf25/elf25.xml"
+    xml_file_name = "model/xml/bot_elf/bot_elf.xml"
     xml_file = os.path.join(get_package_share_path("description"), xml_file_name)
 
     policy_file_name = "policy/policy.jit"

@@ -55,7 +55,7 @@ def generate_launch_description():
     )
 
     # xml_file_name = "model/xml/elf25/elf25.xml"
-    xml_file_name = "model/xml/bot_elf/bot_elf.xml"
+    xml_file_name = "model/xml/bot_elf/bot_elf_ankle.xml"
     xml_file = os.path.join(get_package_share_path("description"), xml_file_name)
 
     simulation_node = Node(

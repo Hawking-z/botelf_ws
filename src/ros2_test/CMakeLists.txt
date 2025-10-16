@@ -25,29 +25,35 @@ find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(communication REQUIRED)
 find_package(yaml-cpp REQUIRED)
-find_package(pinocchio REQUIRED)
-find_package(casadi REQUIRED)
+# find_package(pinocchio REQUIRED)
+# find_package(casadi REQUIRED)
 
 add_executable(test1 src/test1.cpp)
 add_executable(test2 src/test2.cpp)
 add_executable(test3 src/test3.cpp)
-add_executable(test4 src/test4.cpp)
-add_executable(mpc_test src/mpc_test.cpp)
-add_executable(est_debug src/estimator_debug.cpp)
+# add_executable(test4 src/test4.cpp)
+# add_executable(mpc_test src/mpc_test.cpp)
+# add_executable(est_debug src/estimator_debug.cpp)
 
 target_link_libraries(test3 openvino::runtime)
 target_link_libraries(test1 yaml-cpp)
-target_link_libraries(test4 yaml-cpp pinocchio::pinocchio)
-target_link_libraries(mpc_test casadi)
-target_link_libraries(est_debug yaml-cpp pinocchio::pinocchio ) 
-ament_target_dependencies(mpc_test rclcpp)
+# target_link_libraries(test4 yaml-cpp pinocchio::pinocchio)
+# target_link_libraries(mpc_test casadi)
+# target_link_libraries(est_debug yaml-cpp pinocchio::pinocchio ) 
+# ament_target_dependencies(mpc_test rclcpp)
 ament_target_dependencies(test1 rclcpp)
 ament_target_dependencies(test2 rclcpp std_msgs)
-ament_target_dependencies(test4 rclcpp)
-ament_target_dependencies(est_debug std_msgs rclcpp nav_msgs sensor_msgs communication)
+# ament_target_dependencies(test4 rclcpp)
+# ament_target_dependencies(est_debug std_msgs rclcpp nav_msgs sensor_msgs communication)
 
 install(
-  TARGETS test1 test2 test3 test4 mpc_test est_debug
+  TARGETS 
+  test1 
+  test2 
+  test3 
+  # test4 
+  # mpc_test 
+  # est_debug
   DESTINATION lib/${PROJECT_NAME}
 )
 
