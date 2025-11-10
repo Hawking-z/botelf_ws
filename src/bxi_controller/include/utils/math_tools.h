@@ -11,6 +11,7 @@ Eigen::Vector3d quat_rotate_inverse(const Eigen::Quaterniond &quat, const Eigen:
 Eigen::Vector3d quat_rotate_yaw_inverse(const Eigen::Quaterniond &quat, const Eigen::Vector3d &vec);
 
 Eigen::Vector3d get_euler_xyz(const Eigen::Quaterniond &quat);
+Eigen::Vector3f get_euler_xyz(const Eigen::Quaternionf &quat);
 
 double get_yaw_from_quaternion(const Eigen::Quaterniond &quat);
 

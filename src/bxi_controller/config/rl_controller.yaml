@@ -1,81 +1,111 @@
+cfg_dir: "src/bxi_controller/config/model/exported/"
+model_name: "elf1_alip_guide.onnx"
 
+# for simulation
+reset_pose: false
+init_base_pos: [0. , 0., 1.]  # pos: x y z
+init_base_quat: [0.,1.,0.,1.]  # quaternion: x y z w
 
-model: "src/bxi_controller/models/rl_model/policy_0.onnx"
-# model: "src/bxi_controller/models/dh_rl_model/walk_policy_0.onnx"
-
-# HZ
-infer_rate: 100
-pd_rate: 1000
-obs_dim: 48
-stack_size: 10
-# stack_size: 45
-action_dim: 12
-
-cycle_time: 0.6
-joint_num: 20
-action_scales: 0.5
-clip_observations: 100.
-clip_actions: 10.0
-eps: 0.2
-
-obs_scales:
-  lin_vel: 1.0
-  ang_vel: 1.0
-  dof_pos: 1.0
-  dof_vel: 0.05
-  quat: 1.0
-
-joint_kp:
-  - [100, 100., 100., 100., 20., 20.]
-  - [100, 100., 100., 100., 20., 20.]
-  - [10,10,10,10]
-  - [10,10,10,10]
-
-joint_kd:
-  - [3., 3., 3., 3., 0.9, 0.9]
-  - [3., 3., 3., 3., 0.9, 0.9]
-  - [0.5,0.5,0.5,0.5]
-  - [0.5,0.5,0.5,0.5]
-
-
-default_dof_pos:
-  - [0, 0, -0.35, 0.7, -0.35, 0]
-  - [0, 0, -0.35, 0.7, -0.35, 0]
-  - [0.7, 0.2, -0.1, -1.5 ]
-  - [0.7, -0.2, 0.11, -1.5 ]
-
-init_dof_pos:
-  - [0, 0, -0.35, 0.7, -0.35, 0]
-  - [0, 0, -0.35, 0.7, -0.35, 0]
-  - [0.7, 0.2, -0.1, -1.5 ]
-  - [0.7, -0.2, 0.1, -1.5 ]
-
-torque_limits:
-  - [19, 40, 100, 120, 12, 6]
-  - [19, 40, 100, 120, 12, 6]
-  - [7, 7, 7, 7]
-  - [7, 7, 7, 7]
-
-joint_names:
-
-  - l_hip_z_joint
-  - l_hip_x_joint
-  - l_hip_y_joint
-  - l_knee_y_joint
-  - l_ankle_y_joint
-  - l_ankle_x_joint
-  - r_hip_z_joint
-  - r_hip_x_joint
-  - r_hip_y_joint
-  - r_knee_y_joint
-  - r_ankle_y_joint
-  - r_ankle_x_joint
-  
-  - l_shld_y_joint
-  - l_shld_x_joint
-  - l_shld_z_joint
-  - l_elb_y_joint
-  - r_shld_y_joint
-  - r_shld_x_joint
-  - r_shld_z_joint
-  - r_elb_y_joint
+# 0 位置模式 1 力矩模式
+# 位置模式： 将 kp、kd 和 目标位置 给到 电机 
+# 力矩模式： 在上层计算出力矩 \tau = kp *(q_t - q ) + kd *(0 - dq),再发送力矩信号
+init_dof_config:
+  l_hip_z_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: 0.0
+    control_mode: 0
+  l_hip_x_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: 0.0
+    control_mode: 0
+  l_hip_y_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: -0.3
+    control_mode: 0
+  l_knee_y_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: 0.6
+    control_mode: 0
+  l_ankle_y_joint:
+    default_kp: 30.0
+    default_kd: 1.0
+    init_pos: -0.3
+    control_mode: 0
+  l_ankle_x_joint:
+    default_kp: 30.0
+    default_kd: 1.0
+    init_pos: 0.0
+    control_mode: 0
+  l_shld_y_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.5
+    control_mode: 0
+  l_shld_x_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.1
+    control_mode: 0
+  l_shld_z_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.0
+    control_mode: 0
+  l_elb_y_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: -1.2
+    control_mode: 0
+  r_hip_z_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: 0.0
+    control_mode: 0
+  r_hip_x_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: 0.0
+    control_mode: 0
+  r_hip_y_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: -0.3
+    control_mode: 0
+  r_knee_y_joint:
+    default_kp: 100.0
+    default_kd: 5.0
+    init_pos: 0.6
+    control_mode: 0
+  r_ankle_y_joint:
+    default_kp: 30.0
+    default_kd: 1.0
+    init_pos: -0.3
+  r_ankle_x_joint:
+    default_kp: 30.0
+    default_kd: 1.0
+    init_pos: 0.0
+    control_mode: 0
+  r_shld_y_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.5
+    control_mode: 0
+  r_shld_x_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: -0.1
+    control_mode: 0
+  r_shld_z_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.0
+    control_mode: 0
+  r_elb_y_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: -1.2
+    control_mode: 0

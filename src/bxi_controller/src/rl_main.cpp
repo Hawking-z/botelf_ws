@@ -1,7 +1,7 @@
 #include <rclcpp/executors/multi_threaded_executor.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-#include "control/RL_Controller.h"
+#include "control/rl_controller.h"
 
 using namespace rclcpp::executors;
 

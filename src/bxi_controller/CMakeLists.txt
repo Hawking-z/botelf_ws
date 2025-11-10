@@ -25,7 +25,7 @@ find_package(communication REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(OpenVINO REQUIRED)
-
+find_package(Eigen3 REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -33,37 +33,34 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_executable(keyboard_node  src/utils/keyboard_node.cpp)
 add_executable(rc_node src/utils/remote_controller_node.cpp)
 
+
+add_executable(test_1 src/test.cpp)
+
 # control
 set(
   RL_CONTROLLER_SRC
   src/rl_main.cpp
-  src/control/RL_Controller.cpp
-  src/utils/math_tools.cpp
-)
-set(
-  RL_WBC_SRC
-  src/rl_wbc_main.cpp
-  src/control/RL_WBC.cpp
+  src/control/rl_controller.cpp
   src/utils/math_tools.cpp
 )
 
-add_executable(rl_controller ${RL_CONTROLLER_SRC})
-add_executable(rl_wbc ${RL_WBC_SRC})
+add_executable(
+  rl_controller
+  ${RL_CONTROLLER_SRC}
+)
 
 target_link_libraries(rc_node yaml-cpp)
 target_link_libraries(keyboard_node yaml-cpp)
+target_link_libraries(test_1 yaml-cpp openvino::runtime Eigen3::Eigen)
+target_link_libraries(rl_controller yaml-cpp openvino::runtime Eigen3::Eigen)
+
 ament_target_dependencies(keyboard_node rclcpp std_msgs communication)
 ament_target_dependencies(rc_node rclcpp std_msgs communication)
-
-target_link_libraries(rl_controller openvino::runtime yaml-cpp)
 ament_target_dependencies(rl_controller std_msgs rclcpp nav_msgs sensor_msgs communication)
-
-target_link_libraries(rl_wbc openvino::runtime yaml-cpp)
-ament_target_dependencies(rl_wbc std_msgs rclcpp nav_msgs sensor_msgs communication)
 
 # install executable
 install(
-  TARGETS  rc_node keyboard_node  rl_controller  rl_wbc
+  TARGETS  rc_node keyboard_node  test_1 rl_controller
   DESTINATION lib/${PROJECT_NAME}
 )
 # install launch

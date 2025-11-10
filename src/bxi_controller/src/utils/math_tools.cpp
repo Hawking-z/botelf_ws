@@ -100,6 +100,38 @@ Eigen::Vector3d get_euler_xyz(const Eigen::Quaterniond &quat)
     return Eigen::Vector3d(roll, pitch, yaw);
 }
 
+Eigen::Vector3f get_euler_xyz(const Eigen::Quaternionf &quat)
+{
+    // 提取四元数分量
+    double qw = quat.w(), qx = quat.x(), qy = quat.y(), qz = quat.z();
+
+    // 计算 roll (绕 x 轴旋转)
+    double sinr_cosp = 2.0 * (qw * qx + qy * qz);
+    double cosr_cosp = qw * qw - qx * qx - qy * qy + qz * qz;
+    double roll = std::atan2(sinr_cosp, cosr_cosp);
+
+    // 计算 pitch (绕 y 轴旋转)
+    double sinp = 2.0 * (qw * qy - qz * qx);
+    double pitch;
+    if (std::abs(sinp) >= 1)
+        pitch = std::copysign(M_PI / 2.0, sinp); // 限制在 [-π/2, π/2]
+    else
+        pitch = std::asin(sinp);
+
+    // 计算 yaw (绕 z 轴旋转)
+    double siny_cosp = 2.0 * (qw * qz + qx * qy);
+    double cosy_cosp = qw * qw + qx * qx - qy * qy - qz * qz;
+    double yaw = std::atan2(siny_cosp, cosy_cosp);
+
+    // 归一化到 [-π, π]
+    roll = std::remainder(roll, 2.0 * M_PI);
+    pitch = std::remainder(pitch, 2.0 * M_PI);
+    yaw = std::remainder(yaw, 2.0 * M_PI);
+
+    // 返回 Eigen::Vector3f
+    return Eigen::Vector3f(roll, pitch, yaw);
+}
+
 double get_yaw_from_quaternion(const Eigen::Quaterniond &quat)
 {
     // 提取四元数分量
