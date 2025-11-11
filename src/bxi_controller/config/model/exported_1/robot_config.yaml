@@ -205,7 +205,7 @@ obs_config:
     - dof_pos
     - dof_vel
     - actions
-    history_len: 15
+    history_len: 10
     flatten: true
 pd_rate: 1000.0
 infer_rate: 99.9999952502551

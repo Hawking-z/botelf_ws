@@ -2,8 +2,6 @@
 #include <rcpputils/asserts.hpp>
 #include <yaml-cpp/yaml.h>
 
-// TODO 替换为std::remainder(angle, 2 * M_PI)
-
 RobotController::RobotController() : Node("RobotController")
 {
 
@@ -382,7 +380,6 @@ void RobotController::pd_controller_loop()
                     if (control_joint != robot_cfg_.dof.name_to_index.end())
                     {
                         int index = robot_cfg_.dof.name_to_index[joint_name];
-                        // TODO 加入action
                         // 位置控制 
                         if (param.control_mode == 0)
                         {
@@ -550,6 +547,16 @@ void RobotController::infer_loop()
  
         if (error_flag_)
         {
+            RCLCPP_ERROR(this->get_logger(), "RobotController: infer_loop exit due to robot fall down!");
+            pd_controller_flag_ = false;
+            for(auto& kv : joints_)
+            {
+                kv.second.default_kp = 0.0;
+                kv.second.control_mode = 0; // position control
+            }
+            robot_cfg_.dof.kp.setZero();
+            action_output_.setZero();
+            break;
         }
 
         loop_rate_.sleep();
