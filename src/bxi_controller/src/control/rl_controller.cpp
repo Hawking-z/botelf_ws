@@ -288,8 +288,7 @@ void RobotController::init_robot_pos()
 
         loop_count++;
         {
-            // && ((motion_commands_msg_->mode) % 2 == 1)
-            if (loop_count > (3. * 250.0)) // hold for 3s
+            if (loop_count > (3. * 250.0)&& ((motion_commands_msg_->mode) % 2 == 1)) // hold for 3s
             {
                 break;
             }

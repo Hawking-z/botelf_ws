@@ -53,9 +53,9 @@ def generate_launch_description():
     )
 
     hardware_node = Node(
-        package="hardware",
-        executable="hardware",
-        name="hardware",
+        package="hardware_ankle",
+        executable="hardware_ankle",
+        name="hardware_ankle",
         output="screen",
         parameters=[
         ],
@@ -82,7 +82,7 @@ def generate_launch_description():
             record_process,
             hardware_node,
              TimerAction(
-                period=10.,  # 延迟时间（秒）
+                period=5.,  # 延迟时间（秒）
                 actions=[bxi_controller_node],
             ),
         ]

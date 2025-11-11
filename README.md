@@ -2,30 +2,20 @@
 
 ## 简介
 
-**仅用于BXI Robotics Elf1 机器人. **     
-本仓库包含控制程序以及开发示例，基于`ROS2`开发，主要包含以下几个包（除`bxi_example`包外均为二进制发布）：
-* 二进制包，位于 `bxi_hw_release/`目录：    
-1. `communication`：机器人通信包定义，包含自定义的通信包格式，`src/`目录下有相应源码，仅供参考使用，包已经编译进`bxi_hw_release/`目录
-2. `description`:机器人描述文件，包含机器人`urdf`文件以及`meshe`文件
-3. `mujoco`:机器人仿真环境，用于提前验证算法，所有算法在真机运行之前必须使用仿真环境进行验证
-4. `hardware`:机器人硬件控制包，启动后本节点发布机器人所有传感器数据，并接收控制指令
-5. `remote_controller`:遥控器，使用`ps4`手柄控制机器人移动，可以控制真机和仿真环境
-7. `keyboard_controller`:键盘控制器，使用按键控制机器人移动，建议不要用来控制真机，仅限仿真环境使用
-8. `robot_controller`:本公司提供的基础控制程序，可以通过遥控器实现全向移动
-* 原代码包，位于 `src/`目录：
-9. `src/bix_example`:机器人控制接口使用示例，实现初始化流程和基础的消息接收和发送
-10. `src/bix_example_py`:机器人强化学习控制示例`python`版,演示如何使用强化学习控制机器人
+**仅用于BXI Robotics Elf1 机器人. **   
+
+本仓库包含控制程序以及开发示例，基于`ROS2`开发，主要包含以下几个包
+
 
 ## 使用说明
 
 ### 系统环境以及依赖
 真机已配置好环境，到手即可使用，重新安装系统后或者在其他机器运行仿真需重新配置环境。具体如下：
 1. 系统版本需为`Ubuntu 22.04`，并安装对应版本`ROS2`
-2. 运行自带控制算法需安装`pinocchio 2.7.1`，并设置环境变量`LD_LIBRARY_PATH`
-3. 运行`mujoco`仿真需安装`libglfw3-dev`
-4. 将`source xxx/bxi_hw_realease/setup.bash`加入`.bashrc`，运行真机需以`root`用户运行
-5. 设置`udev rules`，固定`IMU`设备名称为`/dev/ttyIMU`
-6. 运行强化学习示例需安装`torch`
+2. 运行`mujoco`仿真需安装`libglfw3-dev`，使用指令`sudo apt install libglfw3-dev`进行安装
+3. 将`source xxx/bxi_hw_realease/setup.bash`加入`.bashrc`，运行真机需以`root`用户运行
+4. 设置`udev rules`，固定`IMU`设备名称为`/dev/ttyIMU`
+
 
 ### 仿真与真机差异
 
@@ -49,20 +39,17 @@
 示例代码简单描述了如何订阅接收传感器消息，调用初始化服务并对机器人进行一个简单的位置控制    
 1. 在代码根目录下运行 `colcon build` 编译 `./src` 目录下所有的包；编译成功后，运行`source ./install/setup.bash`设置新的环境变量；    
 2. 运行 模拟器/真机 以及控制程序：    
-* 运行`ros2 launch bxi_example example_launch.py`启动 模拟器 + 控制程序    
+* 运行`ros2 launch bxi_controller example_launch.py`启动 模拟器 + 控制程序    
 * 运行`ros2 launch bxi_example example_launch_hw.py`启动 真机 + 控制程序    
 上述命令同时启动机器人节点和一个控制节点
 3. 运行强化学习示例：
-* 运行`ros2 launch bxi_example_py example_launch.py`启动 模拟器 + 控制程序（强化学习版）    
-* 运行`ros2 launch bxi_example_py example_launch_hw.py`启动 真机 + 控制程序 （强化学习版）
-* 运行`ros2 launch bxi_example_py example_launch_hw_slope.py`启动 真机 + 控制程序 （强化学习上下斜坡）
+* 运行`ros2 launch bxi_example_py rl_sim_launch.py`启动 模拟器 + 控制程序（强化学习版）    
+* 运行`ros2 launch bxi_example_py rl_hw_launch.py`启动 真机 + 控制程序 （强化学习版）
 
 ### 运行基础控制程序
 提前连接遥控器
-1. 启动遥控器节点：`ros2 launch remote_controller remote_conroller_launch.py`
-2. 启动仿真节点和控制节点：`ros2 launch robot_controller manager_bot_elf.launch.py`
-3. 间隔一秒按两次遥控器模式切换按钮启动机器人，按键定义见开箱说明
-4. 运行真机程序时将第二条命令改为：`ros2 launch robot_controller manager_bot_elf_hw.launch.py`
+1. 启动遥控器节点：`ros2 run bxi_controller rc_node`
+2. 启动键盘节点：`ros2 run bxi_controller keyboard_node`
 
 ### 其他节点启动指令
 

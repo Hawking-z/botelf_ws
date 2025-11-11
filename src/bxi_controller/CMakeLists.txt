@@ -33,9 +33,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_executable(keyboard_node  src/utils/keyboard_node.cpp)
 add_executable(rc_node src/utils/remote_controller_node.cpp)
 
-
-add_executable(test_1 src/test.cpp)
-
 # control
 set(
   RL_CONTROLLER_SRC
@@ -51,7 +48,7 @@ add_executable(
 
 target_link_libraries(rc_node yaml-cpp)
 target_link_libraries(keyboard_node yaml-cpp)
-target_link_libraries(test_1 yaml-cpp openvino::runtime Eigen3::Eigen)
+
 target_link_libraries(rl_controller yaml-cpp openvino::runtime Eigen3::Eigen)
 
 ament_target_dependencies(keyboard_node rclcpp std_msgs communication)
@@ -60,7 +57,7 @@ ament_target_dependencies(rl_controller std_msgs rclcpp nav_msgs sensor_msgs com
 
 # install executable
 install(
-  TARGETS  rc_node keyboard_node  test_1 rl_controller
+  TARGETS  rc_node keyboard_node  rl_controller
   DESTINATION lib/${PROJECT_NAME}
 )
 # install launch

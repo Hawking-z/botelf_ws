@@ -1,4 +1,4 @@
-cfg_dir: "src/bxi_controller/config/model/exported/"
+cfg_dir: "src/bxi_controller/config/model/exported_1/"
 model_name: "elf1_alip_guide.onnx"
 
 # for simulation
