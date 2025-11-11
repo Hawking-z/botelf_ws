@@ -129,7 +129,12 @@ void RobotController::load_config(std::string filename)
         init_base_quat_ = Eigen::Vector4f(quat_vec[0], quat_vec[1], quat_vec[2], quat_vec[3]);
         init_base_quat_.normalize();
     }
-
+    // command_order_
+    // 遍历 command_order 字段并加载到 vector 中
+    for (const auto& joint : config["command_order"]) {
+        command_order_.push_back(joint.as<std::string>());
+        std::cout << joint.as<std::string>() << std::endl;
+    }
     // TODO
     if (robot_cfg_.num_actions == 12)
     {
@@ -273,16 +278,17 @@ void RobotController::init_robot_pos()
 
         update_obs();
 
-        for (auto it = joints_.begin(); it != joints_.end(); ++it)
-        {
-            actuatorCmds.actuators_name.emplace_back(it->first);
+        for (const auto& joint_name : command_order_)
+        {   
+            cfgutils::DofParam param = joints_.at(joint_name);
+            actuatorCmds.actuators_name.emplace_back(joint_name);
             actuatorCmds.vel.emplace_back(0);
             actuatorCmds.torque.emplace_back(0);
             soft_start = loop_count / 250.0;
             soft_start = soft_start > 1 ? 1 : soft_start;
-            actuatorCmds.pos.emplace_back(it->second.init_pos * soft_start);
-            actuatorCmds.kp.emplace_back(it->second.default_kp * soft_start);
-            actuatorCmds.kd.emplace_back(it->second.default_kd);
+            actuatorCmds.pos.emplace_back(param.init_pos * soft_start);
+            actuatorCmds.kp.emplace_back(param.default_kp * soft_start);
+            actuatorCmds.kd.emplace_back(param.default_kd);
         }
         actuators_cmds_pub_ptr_->publish(actuatorCmds);
 
@@ -325,10 +331,11 @@ void RobotController::callSimulationResetService()
         std::cout << init_base_quat_[i] << std::endl;
     }
     // 示例：根据需要设置关节信息
-    for (auto it = joints_.begin(); it != joints_.end(); ++it)
+    for (const auto& joint_name : command_order_)
     {
-        request->joint_state.name.emplace_back(it->first);
-        request->joint_state.position.emplace_back(it->second.init_pos);
+        cfgutils::DofParam param = joints_.at(joint_name);
+        request->joint_state.name.emplace_back(joint_name);
+        request->joint_state.position.emplace_back(param.init_pos);
         request->joint_state.velocity.emplace_back(0);
         request->joint_state.effort.emplace_back(0);
     }
@@ -367,16 +374,17 @@ void RobotController::pd_controller_loop()
             actuatorCmds.header.frame_id = std::string("bot_elf");
             actuatorCmds.header.stamp = this->now();
             {
-                for (auto it = joints_.begin(); it != joints_.end(); ++it)
+                for (const auto& joint_name : command_order_)
                 {
-                    auto control_joint = robot_cfg_.dof.name_to_index.find(it->first);
+                    actuatorCmds.actuators_name.emplace_back(joint_name);
+                    auto control_joint = robot_cfg_.dof.name_to_index.find(joint_name);
+                    cfgutils::DofParam param = joints_.at(joint_name);
                     if (control_joint != robot_cfg_.dof.name_to_index.end())
                     {
-                        actuatorCmds.actuators_name.emplace_back(it->first);
-                        int index = robot_cfg_.dof.name_to_index[it->first];
+                        int index = robot_cfg_.dof.name_to_index[joint_name];
                         // TODO 加入action
                         // 位置控制 
-                        if (it->second.control_mode == 0)
+                        if (param.control_mode == 0)
                         {
                             float traget_pos = action_output_[index] * robot_cfg_.dof.scale[index] + robot_cfg_.dof.default_pos[index] ;
                             actuatorCmds.pos.emplace_back(traget_pos);
@@ -386,11 +394,12 @@ void RobotController::pd_controller_loop()
                             actuatorCmds.kd.emplace_back(robot_cfg_.dof.kd[index]);
                         }
                         // 力矩控制
-                        else if (it->second.control_mode == 1)
+                        else if (param.control_mode == 1)
                         {
                             float target_torque = robot_cfg_.dof.kp[index] *(action_output_[index] * robot_cfg_.dof.scale[index] 
-                                                + robot_cfg_.dof.default_pos[index] - it->second.pos)
-                                                + robot_cfg_.dof.kd[index] * (0.0 - it->second.vel) ;
+                                                + robot_cfg_.dof.default_pos[index] - param.pos)
+                                                + robot_cfg_.dof.kd[index] * (0.0 - param.vel) ;
+                            target_torque = std::clamp(target_torque , -robot_cfg_.dof.torque_limits[index],robot_cfg_.dof.torque_limits[index]);
                             actuatorCmds.pos.emplace_back(0);
                             actuatorCmds.vel.emplace_back(0);
                             actuatorCmds.kp.emplace_back(0);
@@ -404,12 +413,11 @@ void RobotController::pd_controller_loop()
                     }
                     else
                     {
-                        actuatorCmds.actuators_name.emplace_back(it->first);
-                        actuatorCmds.pos.emplace_back(it->second.init_pos);
+                        actuatorCmds.pos.emplace_back(param.init_pos);
                         actuatorCmds.vel.emplace_back(0);
                         actuatorCmds.torque.emplace_back(0);
-                        actuatorCmds.kp.emplace_back(it->second.default_kp);
-                        actuatorCmds.kd.emplace_back(it->second.default_kd);
+                        actuatorCmds.kp.emplace_back(param.default_kp);
+                        actuatorCmds.kd.emplace_back(param.default_kd);
                     }
                 }
                 actuators_cmds_pub_ptr_->publish(actuatorCmds);

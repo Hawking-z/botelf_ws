@@ -95,6 +95,8 @@ private:
     std::unique_ptr<cfgutils::ObsAssembler> obs_assembler_ptr_;
     std::unique_ptr<ovutils::OVModelIO> ov_model_ptr_;
     std::unordered_map<std::string, cfgutils::DofParam> joints_;
+    
+    std::vector<std::string> command_order_;
 
     Eigen::Vector3f init_base_pos_ = Eigen::Vector3f::Zero();
     Eigen::Vector4f init_base_quat_ = Eigen::Vector4f::Zero(); // xyzw
@@ -104,7 +106,6 @@ private:
     // 输入输出
     std::unordered_map<std::string, Eigen::VectorXf> obs_dict_;
     Eigen::VectorXf action_output_;
-
     // ------------------------------------
     //Sensor data & Commands
     communication::msg::MotionCommands::SharedPtr motion_commands_msg_;

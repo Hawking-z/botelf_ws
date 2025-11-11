@@ -40,26 +40,6 @@ init_dof_config:
     default_kd: 1.0
     init_pos: 0.0
     control_mode: 0
-  l_shld_y_joint:
-    default_kp: 10.0
-    default_kd: 0.5
-    init_pos: 0.5
-    control_mode: 0
-  l_shld_x_joint:
-    default_kp: 10.0
-    default_kd: 0.5
-    init_pos: 0.1
-    control_mode: 0
-  l_shld_z_joint:
-    default_kp: 10.0
-    default_kd: 0.5
-    init_pos: 0.0
-    control_mode: 0
-  l_elb_y_joint:
-    default_kp: 10.0
-    default_kd: 0.5
-    init_pos: -1.2
-    control_mode: 0
   r_hip_z_joint:
     default_kp: 100.0
     default_kd: 5.0
@@ -89,6 +69,26 @@ init_dof_config:
     default_kd: 1.0
     init_pos: 0.0
     control_mode: 0
+  l_shld_y_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.5
+    control_mode: 0
+  l_shld_x_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.1
+    control_mode: 0
+  l_shld_z_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: 0.0
+    control_mode: 0
+  l_elb_y_joint:
+    default_kp: 10.0
+    default_kd: 0.5
+    init_pos: -1.2
+    control_mode: 0
   r_shld_y_joint:
     default_kp: 10.0
     default_kd: 0.5
@@ -109,3 +109,25 @@ init_dof_config:
     default_kd: 0.5
     init_pos: -1.2
     control_mode: 0
+
+command_order:
+- l_hip_z_joint
+- l_hip_x_joint
+- l_hip_y_joint
+- l_knee_y_joint
+- l_ankle_y_joint
+- l_ankle_x_joint
+- r_hip_z_joint
+- r_hip_x_joint
+- r_hip_y_joint
+- r_knee_y_joint
+- r_ankle_y_joint
+- r_ankle_x_joint
+- l_shld_y_joint
+- l_shld_x_joint
+- l_shld_z_joint
+- l_elb_y_joint
+- r_shld_y_joint
+- r_shld_x_joint
+- r_shld_z_joint
+- r_elb_y_joint
