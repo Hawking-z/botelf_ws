@@ -383,6 +383,7 @@ void RobotController::pd_controller_loop()
                         // 位置控制 
                         if (param.control_mode == 0)
                         {
+                            std::lock_guard<std::mutex> lock(action_mutex_);
                             float traget_pos = action_output_[index] * robot_cfg_.dof.scale[index] + robot_cfg_.dof.default_pos[index] ;
                             actuatorCmds.pos.emplace_back(traget_pos);
                             actuatorCmds.vel.emplace_back(0);
@@ -393,6 +394,7 @@ void RobotController::pd_controller_loop()
                         // 力矩控制
                         else if (param.control_mode == 1)
                         {
+                            std::lock_guard<std::mutex> lock(action_mutex_);
                             float target_torque = robot_cfg_.dof.kp[index] *(action_output_[index] * robot_cfg_.dof.scale[index] 
                                                 + robot_cfg_.dof.default_pos[index] - param.pos)
                                                 + robot_cfg_.dof.kd[index] * (0.0 - param.vel) ;
@@ -516,11 +518,14 @@ void RobotController::infer_action()
         // Get output tensor & set action_output_
         auto output_tensor = ov_model_ptr_->infer_request().get_output_tensor();
         auto output_buf = output_tensor.data<const float>();
-        for (int i = 0; i < robot_cfg_.num_actions; ++i)
         {
-            action_output_(i) = output_buf[i];
+            std::lock_guard<std::mutex> lock(action_mutex_);
+            for (int i = 0; i < robot_cfg_.num_actions; ++i)
+            {
+                action_output_(i) = output_buf[i];
+            }
+            action_output_ = action_output_.cwiseMin(robot_cfg_.clip_actions).cwiseMax(-robot_cfg_.clip_actions);
         }
-        action_output_ = action_output_.cwiseMin(robot_cfg_.clip_actions).cwiseMax(-robot_cfg_.clip_actions);
     }
     catch (const std::exception &e)
     {

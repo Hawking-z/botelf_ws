@@ -80,6 +80,8 @@ private:
     std::mutex touch_mutex_;
     std::mutex odom_mutex_;
 
+    std::mutex action_mutex_;
+
     // TODO
     bool run_ = false;
     bool error_flag_ = false;
