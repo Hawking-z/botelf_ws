@@ -143,7 +143,7 @@ struct RobotConfig {
             try {
                 cfg.dof.kp[i]           = jn_node["kp"].as<float>();
                 cfg.dof.kd[i]           = jn_node["kd"].as<float>();
-                cfg.dof.scale[i]        = jn_node["scale"].as<float>();
+                cfg.dof.scale[i]        = jn_node["action_scale"].as<float>();
                 cfg.dof.torque_limits[i]= jn_node["torque_limits"].as<float>();
                 cfg.dof.default_pos[i]  = jn_node["default_pos"].as<float>();
             } catch (const std::exception& e) {
@@ -166,7 +166,7 @@ struct RobotConfig {
             ss.shape    = as_vec_i(sn["shape"]);
             ss.elem_dim = product(ss.shape);
             ss.frames   = node_has(sn, "frames") ? sn["frames"].as<int>() : 1;
-            ss.scale    = node_has(sn, "scale")  ? sn["scale"].as<float>() : 1.0f;
+            ss.scale    = node_has(sn, "obs_scale")  ? sn["obs_scale"].as<float>() : 1.0f;
             if (ss.frames <= 0) throw std::runtime_error("sensor " + name + " 的 frames 必须 >=1");
             cfg.sensors.emplace(name, std::move(ss));
         }
@@ -373,6 +373,4 @@ private:
     std::unordered_map<std::string, RingBuffer> obs_bufs_;
     std::unordered_set<std::string> required_sensors_;
 };
-
-
 } 

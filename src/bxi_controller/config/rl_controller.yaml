@@ -1,10 +1,10 @@
 cfg_dir: "src/bxi_controller/config/model/exported_1/"
-model_name: "elf1_alip_guide.onnx"
+model_name: "policy_0.onnx"
 
 # for simulation
 reset_pose: false
 init_base_pos: [0. , 0., 1.]  # pos: x y z
-init_base_quat: [0.,1.,0.,1.]  # quaternion: x y z w
+init_base_quat: [0.,0.,0.,1.]  # quaternion: x y z w
 
 # 0 位置模式 1 力矩模式
 # 位置模式： 将 kp、kd 和 目标位置 给到 电机 
@@ -12,22 +12,22 @@ init_base_quat: [0.,1.,0.,1.]  # quaternion: x y z w
 init_dof_config:
   l_hip_z_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: 0.0
     control_mode: 0
   l_hip_x_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: 0.0
     control_mode: 0
   l_hip_y_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: -0.3
     control_mode: 0
   l_knee_y_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: 0.6
     control_mode: 0
   l_ankle_y_joint:
@@ -42,22 +42,22 @@ init_dof_config:
     control_mode: 0
   r_hip_z_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: 0.0
     control_mode: 0
   r_hip_x_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: 0.0
     control_mode: 0
   r_hip_y_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: -0.3
     control_mode: 0
   r_knee_y_joint:
     default_kp: 100.0
-    default_kd: 5.0
+    default_kd: 3.0
     init_pos: 0.6
     control_mode: 0
   r_ankle_y_joint:

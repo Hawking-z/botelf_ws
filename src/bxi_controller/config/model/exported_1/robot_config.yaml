@@ -23,122 +23,122 @@ dof_config:
   - r_elb_y_joint
   l_hip_z_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 17.100000381469727
     default_pos: 0.0
   l_hip_x_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 38.0
     default_pos: 0.0
   l_hip_y_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 47.5
     default_pos: -0.20000000298023224
   l_knee_y_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 104.5
     default_pos: 0.4000000059604645
   l_ankle_y_joint:
     kp: 30.0
     kd: 1.0
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 47.5
     default_pos: -0.20000000298023224
   l_ankle_x_joint:
     kp: 30.0
     kd: 1.0
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 19.0
     default_pos: 0.0
   l_shld_y_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 25.649999618530273
     default_pos: 0.5
   l_shld_x_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 25.649999618530273
     default_pos: 0.10000000149011612
   l_shld_z_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 6.650000095367432
     default_pos: 0.0
   l_elb_y_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 25.649999618530273
     default_pos: -1.2000000476837158
   r_hip_z_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 17.100000381469727
     default_pos: 0.0
   r_hip_x_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 38.0
     default_pos: 0.0
   r_hip_y_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 47.5
     default_pos: -0.20000000298023224
   r_knee_y_joint:
     kp: 100.0
-    kd: 5.0
-    scale: 0.5
+    kd: 3.0
+    action_scale: 0.5
     torque_limits: 104.5
     default_pos: 0.4000000059604645
   r_ankle_y_joint:
     kp: 30.0
     kd: 1.0
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 47.5
     default_pos: -0.20000000298023224
   r_ankle_x_joint:
     kp: 30.0
     kd: 1.0
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 19.0
     default_pos: 0.0
   r_shld_y_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 25.649999618530273
     default_pos: 0.5
   r_shld_x_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 25.649999618530273
     default_pos: -0.10000000149011612
   r_shld_z_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 6.650000095367432
     default_pos: 0.0
   r_elb_y_joint:
     kp: 10.0
     kd: 0.5
-    scale: 0.5
+    action_scale: 0.5
     torque_limits: 25.649999618530273
     default_pos: -1.2000000476837158
 obs_config:
@@ -146,42 +146,42 @@ obs_config:
     base_ang_vel:
       shape:
       - 3
-      scale: 1.0
+      obs_scale: 1.0
       frames: 1
     base_euler_xyz:
       shape:
       - 3
-      scale: 1.0
+      obs_scale: 1.0
       frames: 1
     command_lin_vel:
       shape:
       - 2
-      scale: 1.0
+      obs_scale: 1.0
       frames: 1
     command_ang_vel:
       shape:
       - 1
-      scale: 1.0
+      obs_scale: 1.0
       frames: 1
     sin_phase:
       shape:
       - 2
-      scale: 1.0
+      obs_scale: 1.0
       frames: 1
     dof_pos:
       shape:
       - 20
-      scale: 1.0
+      obs_scale: 1.0
       frames: 1
     dof_vel:
       shape:
       - 20
-      scale: 0.05
+      obs_scale: 0.05
       frames: 1
     actions:
       shape:
       - 20
-      scale: 1.0
+      obs_scale: 1.0
       frames: 1
   prop_obs:
     sources:

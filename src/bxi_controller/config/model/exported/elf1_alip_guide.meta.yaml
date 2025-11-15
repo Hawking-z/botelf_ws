@@ -1,4 +1,0 @@
-param_names:
-- encoder_obs
-- prop_obs
-rnn_specs: []
