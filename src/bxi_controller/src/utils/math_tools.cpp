@@ -48,6 +48,15 @@ Eigen::Vector3d quat_rotate_inverse(const Eigen::Quaterniond &quat, const Eigen:
     return quat_inverse * vec;
 }
 
+Eigen::Vector3f quat_rotate_inverse(const Eigen::Quaternionf &quat, const Eigen::Vector3f &vec)
+{
+    // 使用四元数的共轭（表示逆旋转）
+    Eigen::Quaternionf quat_inverse = quat.conjugate();
+
+    // 对向量执行逆旋转
+    return quat_inverse * vec;
+}
+
 // 函数：使用四元数的 yaw 分量对向量应用逆旋转
 Eigen::Vector3d quat_rotate_yaw_inverse(const Eigen::Quaterniond &quat, const Eigen::Vector3d &vec)
 {

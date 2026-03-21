@@ -3,3 +3,4 @@ build/
 .vscode
 log/
 src/ros2_test/
+src/bxi_controller/config/model

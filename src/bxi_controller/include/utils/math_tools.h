@@ -7,6 +7,7 @@ Eigen::Vector3d quat_rotate(const Eigen::Quaterniond &quat, const Eigen::Vector3
 Eigen::Vector3d quat_rotate_yaw(const Eigen::Quaterniond &quat, const Eigen::Vector3d &vec);
 
 Eigen::Vector3d quat_rotate_inverse(const Eigen::Quaterniond &quat, const Eigen::Vector3d &vec);
+Eigen::Vector3f quat_rotate_inverse(const Eigen::Quaternionf &quat, const Eigen::Vector3f &vec);
 
 Eigen::Vector3d quat_rotate_yaw_inverse(const Eigen::Quaterniond &quat, const Eigen::Vector3d &vec);
 

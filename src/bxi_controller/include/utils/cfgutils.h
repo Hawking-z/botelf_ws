@@ -197,7 +197,7 @@ struct RobotConfig {
 
             cfg.obs_map.emplace(os.name, std::move(os));
         }
-
+        std::cout << "Loaded RobotConfig from " << path << std::endl;
         return cfg;
     }
 };
@@ -289,6 +289,21 @@ public:
             const auto& os = kv.second;
             obs_bufs_.emplace(kv.first, RingBuffer(os.per_step_dim, os.history_len));
         }
+        std::cout << "sensors config:\n";
+        for (const auto& kv : cfg_.sensors) {
+            const auto& ss = kv.second;
+            std::cout << "  " << ss.name << ": shape=" << ss.shape.size() << "d(" << ss.elem_dim << "), frames=" << ss.frames << ", scale=" << ss.scale << "\n";
+        }
+        std::cout << "obs config:\n";
+        for (const auto& kv : cfg_.obs_map) {
+            const auto& os = kv.second;
+            std::cout << "  " << os.name << ": history_len=" << os.history_len << ", per_step_dim=" << os.per_step_dim << ", final_dim=" << os.final_dim << ", sources=[";
+            for (size_t i = 0; i < os.sources.size(); ++i) {
+                if (i) std::cout << ", ";
+                std::cout << os.sources[i];
+            }
+        }      std::cout << "]\n";
+        
     }
 
     void reset_all() {

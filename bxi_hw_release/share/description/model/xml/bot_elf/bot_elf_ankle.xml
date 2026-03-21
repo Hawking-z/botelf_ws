@@ -1,20 +1,20 @@
 <mujoco model="bot_elf">
   <compiler angle="radian" meshdir="meshes" autolimits="true"/>
-
+  <include file="../terrain/complex_terrain.xml"/>
   <default>
     <light castshadow="false" />
 
     <default class="visual">
-        <geom contype="0" conaffinity="0"/>
+        <geom contype="0" conaffinity="0" group="1"/>
     </default>
 
     <default class="collision">
-        <geom contype="1" conaffinity="1"/>
+        <geom contype="1" conaffinity="1" group="0"/>
     </default>
 
     <joint damping="0.1" armature="0.01" frictionloss="0.01" />
 
-    <geom friction="0.9 0.8 0.8" contype="0" conaffinity="0"/>
+    <geom friction="0.9 0.8 0.8"/>
   </default>
 
   <visual>
@@ -76,19 +76,19 @@
       <body name="l_hip_z_link" pos="0 0.1 -0.2929" gravcomp="0">
         <inertial pos="-0.0926596 1.831e-05 0.0133358" quat="0.954084 -0.000917214 0.299524 -0.00294749" mass="1.23681" diaginertia="0.00340136 0.00310784 0.00119479"/>
         <joint name="l_hip_z_joint" pos="0 0 0" axis="0 0 1" range="-0.785 0.785"/>
-        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_hip_z_link"/>
+        <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_hip_z_link"/>
         <body name="l_hip_x_link" pos="0 0 0" gravcomp="0">
           <inertial pos="-0.00295307 -0.0473123 4.49e-06" quat="0.547733 0.548351 0.447112 0.446531" mass="1.74957" diaginertia="0.00322536 0.00240539 0.00202647"/>
           <joint name="l_hip_x_joint" pos="0 0 0" axis="1 0 0" range="-0.523 0.785"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_hip_x_link"/>
+          <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_hip_x_link"/>
           <body name="l_hip_y_link" pos="0 0 0" gravcomp="0">
             <inertial pos="0.00255763 0.0236405 -0.0488087" quat="0.757333 -0.0675707 0.0350565 0.648577" mass="2.50087" diaginertia="0.0254053 0.0251293 0.00362058"/>
             <joint name="l_hip_y_joint" pos="0 0 0" axis="0 1 0" range="-2 0.5"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_hip_y_link"/>
+            <geom class="visual"  type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_hip_y_link"/>
             <body name="l_knee_y_link" pos="0 0 -0.3" gravcomp="0">
               <inertial pos="0.00659759 0.00057144 -0.109687" quat="0.999522 -0.00929623 0.0275842 0.0103702" mass="1.58922" diaginertia="0.0096954 0.00947624 0.00122694"/>
               <joint name="l_knee_y_joint" pos="0 0 0" axis="0 1 0" range="0 2.2"/>
-              <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_knee_y_link"/>
+              <geom class="visual"  type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_knee_y_link"/>
               <body name="l_ankle_y_link" pos="0 0 -0.3" gravcomp="0">
                 <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.0230716" diaginertia="3.67e-06 2.87e-06 1.54e-06"/>
                 <joint name="l_ankle_y_joint" pos="0 0 0" axis="0 1 0" range="-1.134 0.872"/>
@@ -109,19 +109,19 @@
       <body name="r_hip_z_link" pos="0 -0.1 -0.2929" gravcomp="0">
         <inertial pos="-0.0926596 -1.831e-05 0.0133358" quat="0.954084 0.000917214 0.299524 0.00294749" mass="1.23681" diaginertia="0.00340136 0.00310784 0.00119479"/>
         <joint name="r_hip_z_joint" pos="0 0 0" axis="0 0 1" range="-0.785 0.785"/>
-        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_hip_z_link"/>
+        <geom class="visual"  type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_hip_z_link"/>
         <body name="r_hip_x_link" pos="0 0 0" gravcomp="0">
           <inertial pos="-0.00295307 0.0473123 -4.49e-06" quat="0.447112 0.446531 0.547733 0.548351" mass="1.74957" diaginertia="0.00322536 0.00240539 0.00202647"/>
           <joint name="r_hip_x_joint" pos="0 0 0" axis="1 0 0" range="-0.785 0.523"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_hip_x_link"/>
+          <geom class="visual"  type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_hip_x_link"/>
           <body name="r_hip_y_link" pos="0 0 0" gravcomp="0">
             <inertial pos="0.00255763 -0.0236405 -0.0488088" quat="0.648576 0.0350562 -0.0675708 0.757334" mass="2.50087" diaginertia="0.0254053 0.0251294 0.00362059"/>
             <joint name="r_hip_y_joint" pos="0 0 0" axis="0 1 0" range="-2 0.5"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_hip_y_link"/>
+            <geom class="visual"  type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_hip_y_link"/>
             <body name="r_knee_y_link" pos="0 0 -0.3" gravcomp="0">
               <inertial pos="0.00660983 -0.00055456 -0.109637" quat="0.999532 0.00944127 0.0275094 -0.00947171" mass="1.58818" diaginertia="0.00968261 0.00946404 0.00122593"/>
               <joint name="r_knee_y_joint" pos="0 0 0" axis="0 1 0" range="0 2.2"/>
-              <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_knee_y_link"/>
+              <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_knee_y_link"/>
               <body name="r_ankle_y_link" pos="0 0 -0.3" gravcomp="0">
                 <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.0230716" diaginertia="3.67e-06 2.87e-06 1.54e-06"/>
                 <joint name="r_ankle_y_joint" pos="0 0 0" axis="0 1 0" range="-1.134 0.872"/>
@@ -142,19 +142,19 @@
       <body name="l_shld_y_link" pos="0 0.213 0.1521" gravcomp="0">
         <inertial pos="-0.00060202 -0.00203254 5.251e-05" quat="0.541376 0.518314 -0.463989 0.472203" mass="0.397431" diaginertia="0.00021153 0.000207788 0.000179523"/>
         <joint name="l_shld_y_joint" pos="0 0 0" axis="0 1 0" range="-1.5 1.5"/>
-        <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_shld_y_link"/>
+        <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_shld_y_link"/>
         <body name="l_shld_x_link" pos="0 0 0" gravcomp="0">
           <inertial pos="3.499e-05 5.812e-05 -0.0683282" quat="0.708889 0.0252855 0.0274102 0.704333" mass="0.621968" diaginertia="0.000750759 0.00058036 0.000541362"/>
           <joint name="l_shld_x_joint" pos="0 0 0" axis="1 0 0" range="-0.52 2"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_shld_x_link"/>
+          <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_shld_x_link"/>
           <body name="l_shld_z_link" pos="0 0 0" gravcomp="0">
             <inertial pos="8.049e-05 -0.00042451 -0.230839" quat="0.996174 -0.00232875 0.000739764 0.0873528" mass="0.449112" diaginertia="0.000744136 0.000739336 0.000232208"/>
             <joint name="l_shld_z_joint" pos="0 0 0" axis="0 0 1" range="-1.5 1.5"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_shld_z_link"/>
+            <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_shld_z_link"/>
             <body name="l_elb_y_link" pos="0 0 -0.24505" gravcomp="0">
               <inertial pos="0 0.00061624 -0.10844" quat="0.999981 -0.00618255 0 0" mass="0.164833" diaginertia="0.00104575 0.00101134 0.000120034"/>
               <joint name="l_elb_y_joint" pos="0 0 0" axis="0 1 0" range="-2 0"/>
-              <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_elb_y_link"/>
+              <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="l_elb_y_link"/>
             </body>
           </body>
         </body>
@@ -162,19 +162,19 @@
       <body name="r_shld_y_link" pos="0 -0.213 0.1521" gravcomp="0">
         <inertial pos="-0.00060201 0.00203252 5.251e-05" quat="0.518418 0.541312 -0.472275 0.463877" mass="0.39743" diaginertia="0.00021153 0.000207787 0.000179523"/>
         <joint name="r_shld_y_joint" pos="0 0 0" axis="0 1 0" range="-1.5 1.5"/>
-        <geom type="mesh" rgba="1 1 1 1" mesh="r_shld_y_link"/>
+        <geom class="visual" type="mesh" rgba="1 1 1 1" mesh="r_shld_y_link"/>
         <body name="r_shld_x_link" pos="0 0 0" gravcomp="0">
           <inertial pos="3.499e-05 -5.812e-05 -0.0683282" quat="0.704333 0.0274102 0.0252855 0.708889" mass="0.621968" diaginertia="0.000750759 0.00058036 0.000541362"/>
           <joint name="r_shld_x_joint" pos="0 0 0" axis="1 0 0" range="-2 0.52"/>
-          <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_shld_x_link"/>
+          <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_shld_x_link"/>
           <body name="r_shld_z_link" pos="0 0 0" gravcomp="0">
             <inertial pos="8.059e-05 0.00042451 -0.230839" quat="0.996174 0.00232875 0.000739764 -0.0873528" mass="0.449113" diaginertia="0.000744136 0.000739336 0.000232208"/>
             <joint name="r_shld_z_joint" pos="0 0 0" axis="0 0 1" range="-1.5 1.5"/>
-            <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_shld_z_link"/>
+            <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_shld_z_link"/>
             <body name="r_elb_y_link" pos="0 0 -0.24505" gravcomp="0">
               <inertial pos="0 -0.00061624 -0.10844" quat="0.999981 0.00617695 0 0" mass="0.164833" diaginertia="0.00104575 0.00101134 0.000120034"/>
               <joint name="r_elb_y_joint" pos="0 0 0" axis="0 1 0" range="-2 0"/>
-              <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_elb_y_link"/>
+              <geom class="visual" type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="r_elb_y_link"/>
             </body>
           </body>
         </body>

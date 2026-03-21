@@ -45,10 +45,10 @@ using namespace std;
 
 #define MIN_SPEED_X -1.8
 #define MAX_SPEED_X 1.8
-#define MIN_SPEED_Y -0.35
-#define MAX_SPEED_Y 0.35
-#define MIN_SPEED_R -0.4
-#define MAX_SPEED_R 0.4
+#define MIN_SPEED_Y -0.6
+#define MAX_SPEED_Y 0.6
+#define MIN_SPEED_R -1.
+#define MAX_SPEED_R 1.
 
 #define AXIS_VALUE_MAX 32767
 
@@ -185,9 +185,9 @@ private:
                     if (event.value){
                         switch (event.number){
                         case JS_STOP_BT:{
-                            system("killall -SIGINT bxi_controller");
+                            system("killall -SIGINT rl_controller");
                             // system("killall -SIGINT pt_main_thread");
-                            system("killall -SIGINT hardware");
+                            system("killall -SIGINT hardware_ankle");
                             printf("kill robot_controller\n");//robot_controller
 
                             reset_value();
@@ -195,7 +195,7 @@ private:
                         break;
                         case JS_START_BT:{
                             system("mkdir -p /tmp/bxi_log");
-                            system("ros2 launch bxi_controller rl_hw_launch.py controller:=mimic_controller > /tmp/bxi_log/$(date +%Y-%m-%d_%H-%M-%S)_elf.log  2>&1 &");
+                            system("ros2 launch bxi_controller rl_hw_launch.py  > /tmp/bxi_log/$(date +%Y-%m-%d_%H-%M-%S)_elf.log  2>&1 &");
                             printf("run robot\n");//robot_controller
                             
                             reset_value();

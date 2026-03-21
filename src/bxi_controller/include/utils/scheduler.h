@@ -12,6 +12,7 @@ public:
     float phi, phiR;  // 左右脚的归一化相位
     float fracL, fracR;  // 左右脚的子阶段进度
     float l_sin_phase, r_sin_phase;  // 左右脚的正弦相位
+    float sin_phase, cos_phase;  // 综合正弦和余弦相位
     float l_square_wave, r_square_wave;  // 左右脚的平滑方波
     bool l_stance_mask, r_stance_mask;  // 左右脚的支撑掩码
     float desired_contact_foot;  // 期望接触脚
@@ -44,6 +45,10 @@ public:
         // 计算左右脚的子阶段进度
         fracL = (phi < s) ? (phi / s) : ((phi - s) / f);
         fracR = (phiR < s) ? (phiR / s) : ((phiR - s) / f);
+        
+        // 计算综合正弦和余弦相位
+        sin_phase = std::sin(2.0f * M_PI * phi);
+        cos_phase = std::cos(2.0f * M_PI * phi);
 
         // 计算左右脚的正弦相位
         l_sin_phase = (phi < s) ? std::sin(M_PI * fracL) : -std::sin(M_PI * fracL);

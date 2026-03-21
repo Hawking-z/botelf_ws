@@ -74,10 +74,10 @@ void RobotController::load_config(std::string filename)
         throw std::runtime_error("config file missing init_dof_config field!");
     }
     reset_pose = config["reset_pose"].as<bool>();
-    std::string model_dir = config["cfg_dir"].as<std::string>();
+    std::string model_dir = config["cfg_dir"].as<std::string>() + "exported/";
     std::string cfg_name = model_dir + "robot_config.yaml";
     std::string model_name = model_dir + config["model_name"].as<std::string>();
-
+    std::cout << "model path: " << model_name << std::endl;
     robot_cfg_ = cfgutils::RobotConfig::FromYamlFile(cfg_name);
     obs_assembler_ptr_ = std::make_unique<cfgutils::ObsAssembler>(robot_cfg_);
     ov_model_ptr_ = std::make_unique<ovutils::OVModelIO>(model_name, dev);
@@ -441,17 +441,21 @@ void RobotController::update_obs()
         Eigen::Vector3f root_euler;
         {
             std::lock_guard<std::mutex> lock1(imu_mutex_);
-            sensor_input["base_ang_vel"](0) = imu_msg_->angular_velocity.x;
-            sensor_input["base_ang_vel"](1) = imu_msg_->angular_velocity.y;
-            sensor_input["base_ang_vel"](2) = imu_msg_->angular_velocity.z;
+            Eigen::VectorXf base_ang_vel(3);
+            base_ang_vel(0) = imu_msg_->angular_velocity.x;
+            base_ang_vel(1) = imu_msg_->angular_velocity.y;
+            base_ang_vel(2) = imu_msg_->angular_velocity.z;
+            sensor_input["base_ang_vel"] = base_ang_vel;
             root_quat.x() = imu_msg_->orientation.x;
             root_quat.y() = imu_msg_->orientation.y;
             root_quat.z() = imu_msg_->orientation.z;    
             root_quat.w() = imu_msg_->orientation.w;
             root_euler = get_euler_xyz(root_quat);
-            sensor_input["base_euler_xyz"](0) = root_euler(0);
-            sensor_input["base_euler_xyz"](1) = root_euler(1);
-            sensor_input["base_euler_xyz"](2) = root_euler(2);
+            sensor_input["base_euler_xyz"] = root_euler;
+            Eigen::VectorXf projected_gravity(3);
+            Eigen::Vector3f vec(0.0f, 0.0f, -1.0f);
+            projected_gravity = quat_rotate_inverse(root_quat, vec);
+            sensor_input["projected_gravity"] = projected_gravity;
         }
         {
             std::lock_guard<std::mutex> lock2(joint_mutex_);
@@ -465,15 +469,25 @@ void RobotController::update_obs()
         }
         {
             std::lock_guard<std::mutex> lock3(motion_commands_mutex_);
-            sensor_input["command_lin_vel"](0) = motion_commands_msg_->vel_des.x;
-            sensor_input["command_lin_vel"](1) = motion_commands_msg_->vel_des.y;
-            sensor_input["command_ang_vel"](0) = motion_commands_msg_->yawdot_des;
+            Eigen::VectorXf command_lin_vel(2);
+            Eigen::VectorXf command_ang_vel(1);
+            command_lin_vel(0) = motion_commands_msg_->vel_des.x;
+            command_lin_vel(1) = motion_commands_msg_->vel_des.y;
+            command_ang_vel(0) = motion_commands_msg_->yawdot_des;
+            sensor_input["command_lin_vel"] = command_lin_vel;
+            sensor_input["command_ang_vel"] = command_ang_vel;
         }
         scheduler.update_phase();
-        sensor_input["sin_phase"](0) = scheduler.l_sin_phase;
-        sensor_input["sin_phase"](1) = scheduler.r_sin_phase;
+        Eigen::VectorXf sin_cos_phase(2);
+        sin_cos_phase(0) = scheduler.sin_phase;
+        sin_cos_phase(1) = scheduler.cos_phase;
+        sensor_input["sin_cos_phase"] = sin_cos_phase;
+        Eigen::VectorXf clock_phase(2);
+        clock_phase(0) = scheduler.sin_phase;
+        clock_phase(1) = scheduler.cos_phase;
+        sensor_input["clock_phase"] = clock_phase;
         sensor_input["actions"] = action_output_;
-    
+        
         if (pd_controller_flag_)
         {
             if(std::fabs(root_euler(0)) > 0.8 || std::fabs(root_euler(1)) > 0.8)
