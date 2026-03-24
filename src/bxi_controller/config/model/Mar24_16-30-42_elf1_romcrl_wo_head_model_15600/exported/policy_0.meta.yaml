@@ -1,0 +1,5 @@
+param_names:
+- encoder_long_obs
+- encoder_short_obs
+- prop_obs
+rnn_specs: []

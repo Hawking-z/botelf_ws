@@ -1,0 +1,172 @@
+num_actions: 12
+dof_config:
+  isaac_order:
+  - l_hip_z_joint
+  - l_hip_x_joint
+  - l_hip_y_joint
+  - l_knee_y_joint
+  - l_ankle_y_joint
+  - l_ankle_x_joint
+  - r_hip_z_joint
+  - r_hip_x_joint
+  - r_hip_y_joint
+  - r_knee_y_joint
+  - r_ankle_y_joint
+  - r_ankle_x_joint
+  l_hip_z_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 18.0
+    default_pos: 0.0
+  l_hip_x_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 40.0
+    default_pos: 0.0
+  l_hip_y_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 50.0
+    default_pos: -0.20000000298023224
+  l_knee_y_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 110.0
+    default_pos: 0.4000000059604645
+  l_ankle_y_joint:
+    kp: 20.0
+    kd: 1.0
+    action_scale: 0.5
+    torque_limits: 50.0
+    default_pos: -0.20000000298023224
+  l_ankle_x_joint:
+    kp: 20.0
+    kd: 1.0
+    action_scale: 0.5
+    torque_limits: 20.0
+    default_pos: 0.0
+  r_hip_z_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 18.0
+    default_pos: 0.0
+  r_hip_x_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 40.0
+    default_pos: 0.0
+  r_hip_y_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 50.0
+    default_pos: -0.20000000298023224
+  r_knee_y_joint:
+    kp: 100.0
+    kd: 3.0
+    action_scale: 0.5
+    torque_limits: 110.0
+    default_pos: 0.4000000059604645
+  r_ankle_y_joint:
+    kp: 20.0
+    kd: 1.0
+    action_scale: 0.5
+    torque_limits: 50.0
+    default_pos: -0.20000000298023224
+  r_ankle_x_joint:
+    kp: 20.0
+    kd: 1.0
+    action_scale: 0.5
+    torque_limits: 20.0
+    default_pos: 0.0
+obs_config:
+  sensors:
+    base_ang_vel:
+      shape:
+      - 3
+      obs_scale: 0.2
+      frames: 1
+    projected_gravity:
+      shape:
+      - 3
+      obs_scale: 1.0
+      frames: 1
+    command_lin_vel:
+      shape:
+      - 2
+      obs_scale: 1.0
+      frames: 1
+    command_ang_vel:
+      shape:
+      - 1
+      obs_scale: 1.0
+      frames: 1
+    clock_phase:
+      shape:
+      - 2
+      obs_scale: 1.0
+      frames: 1
+    dof_pos:
+      shape:
+      - 12
+      obs_scale: 1.0
+      frames: 1
+    dof_vel:
+      shape:
+      - 12
+      obs_scale: 0.05
+      frames: 1
+    actions:
+      shape:
+      - 12
+      obs_scale: 1.0
+      frames: 1
+  encoder_long_obs:
+    sources:
+    - base_ang_vel
+    - projected_gravity
+    - command_lin_vel
+    - command_ang_vel
+    - clock_phase
+    - dof_pos
+    - dof_vel
+    - actions
+    history_len: 66
+    flatten: false
+  encoder_short_obs:
+    sources:
+    - base_ang_vel
+    - projected_gravity
+    - command_lin_vel
+    - command_ang_vel
+    - clock_phase
+    - dof_pos
+    - dof_vel
+    - actions
+    history_len: 5
+    flatten: true
+  prop_obs:
+    sources:
+    - base_ang_vel
+    - projected_gravity
+    - command_lin_vel
+    - command_ang_vel
+    - clock_phase
+    - dof_pos
+    - dof_vel
+    - actions
+    history_len: 2
+    flatten: true
+pd_rate: 500.0
+infer_rate: 50.0
+step_period: 0.35
+stand_rate: 0.55
+clip_actions: 100.0
+clip_obs: 100.0
+exp_avg_decay: 1.0
