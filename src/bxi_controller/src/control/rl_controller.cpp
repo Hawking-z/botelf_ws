@@ -233,8 +233,8 @@ void RobotController::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg
 
 void RobotController::init()
 {
-    main_thread_ = std::thread(&RobotController::main_thread, this);
     run_ = true;
+    main_thread_ = std::thread(&RobotController::main_thread, this);
 }
 
 RobotController::~RobotController()

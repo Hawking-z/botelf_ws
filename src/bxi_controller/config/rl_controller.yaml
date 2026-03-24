@@ -1,4 +1,4 @@
-cfg_dir: "src/bxi_controller/config/model/"
+cfg_dir: "src/bxi_controller/config/model/Mar23_23-13-26_elf1_romcrl_model_16599/"
 model_name: "policy_0.onnx"
 
 # for simulation
